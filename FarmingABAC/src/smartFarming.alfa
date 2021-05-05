@@ -1,0 +1,128 @@
+namespace smartFarming{
+	import smartFarming.attributes.*
+	import Attributes.*
+	
+	policyset smartFarmAccess{
+		apply firstApplicable
+	/*
+	 * This policy is for user access to the network.
+	 */
+	policy UserAccessToNetworkGateway{
+		target clause resourceType=="networkGateway"
+		apply denyOverrides
+			rule activeUsers{
+				target clause user.employmentStatus=="active" 
+				and environment.ip == "farmIP"
+				permit 
+			}
+			rule permitusers{
+				target clause user.role=="admin" 
+				and actionId== "configure"
+				permit 
+			}
+		}
+			
+	/*
+	 * This policy is for device and software access to the network.
+	 */	
+	policy AccessToNetworkGateway{
+		target clause resourceType=="networkGateway"
+		apply permitOverrides
+			rule activeDevices{
+				target clause resourceType=="smartDevice" 
+				and environment.ip == "farmIP" 
+				and resource.status=="active" 
+				permit 
+			}
+			rule activeEgdeSoftware{
+				target clause resourceType=="EdgeSoftware" 
+				and resource.status=="active"
+				permit 
+			}
+			rule activeCloudService{
+				target clause resourceType=="CloudService" 
+				and resource.status=="active"
+				permit 
+			}
+		}
+		
+	/*
+	 * This policy is for user access to smart devices.
+	 */	
+	policy AccessToSmartDevices{
+		target clause resourceType=="smartDevice" and user.employmentStatus == "active"
+		apply permitOverrides
+			rule permanentFarmer{
+				target clause user.role=="farmer" 
+				and user.employmentType == "permanent" 
+				and actionId == "edit"
+				permit 
+			}
+			rule contractorFarmer{
+				target clause user.role=="farmer" 
+				and user.employmentType == "contractor" 
+				and actionId == "view"
+				permit 
+			}
+			rule managerAccess{
+				target clause user.role=="manager" 
+				and actionId == "edit"
+				permit 
+			}
+			rule adminAccess{
+				target clause user.role=="admin" 
+				and actionId == "configure"
+				permit 
+			}
+		}
+		
+	/*
+	 * This policy is for Edge software access to smart devices.
+	 */	
+	policy EdgeAccessToSmartDevices{
+		target clause resourceType == "smartDevice"
+		apply denyOverrides
+			rule EdgeAccess{
+				target clause resourceType == "EgdeSoftware" 
+				and resource.status == "active"
+				permit
+			}
+	}
+	
+	/*
+	 * This policy is user access to Edge software.
+	 */	
+	policy UserAccessToEdge{
+		target clause resourceType == "edgeSoftware" and user.employmentStatus == "active"
+		apply permitOverrides
+			rule managerAccessToEdge{
+				target clause user.role == "manager" 
+				and actionId == "edit"
+				permit
+			}
+			rule adminAccessToEdge{
+				target clause user.role == "admin" 
+				and actionId == "configure"
+				permit
+			}
+	}	
+	
+	/*
+	 * This policy is user access to Cloud services.
+	 */	
+	policy UserAccessToCloud{
+		target clause resourceType == "cloudService" and user.employmentStatus == "active"
+		apply permitOverrides
+			rule managerAccessToCloud{
+				target clause user.role == "manager" 
+				and actionId == "edit"
+				permit
+			}
+			rule adminAccessToClouds{
+				target clause user.role == "admin" 
+				and actionId == "configure"
+				permit
+			}
+		}		
+	}
+	}

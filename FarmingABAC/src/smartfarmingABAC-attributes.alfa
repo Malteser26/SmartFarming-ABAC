@@ -1,0 +1,50 @@
+namespace smartFarming{
+	namespace attributes{
+		namespace user{
+			attribute role{
+				category = subjectCat
+				id = "role"
+				type = string
+			}
+			attribute employmentStatus{
+				category = subjectCat
+				id = "employmentStatus"
+				type = string
+			}
+			attribute birthDate{
+				category = subjectCat
+				id = "birthDate"
+				type = date
+			}
+			attribute employmentType{
+				category = subjectCat
+				id = "employmentType"
+				type = string
+			}
+			attribute workDays{
+				category = subjectCat
+				id = "workDays"
+				type = string
+			}
+		}
+	}
+	namespace environment{
+		attribute ip{
+			category = environmentCat
+			id ="ip"
+			type = string
+		}
+	}
+	namespace resource{
+		attribute status{
+			category = resourceCat
+			id ="status"
+			type = string
+		}
+		attribute maintenance{
+			category = resourceCat
+			id = "maintenance"
+			type = date
+		}
+	}
+}

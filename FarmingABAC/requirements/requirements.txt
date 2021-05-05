@@ -1,0 +1,23 @@
+Smart Farming scenario
+
+Policy 1: Access to Network gateway
+	Rule 1: Users can connect to the network gateway if their employment status is active and if IP address belongs to 192.168.1.15/24
+	Rule 2: Users of role admin can configure the network gateway.
+	Rule 3: Edge software is connected to network gateway when status is active.
+	Rule 4: Cloud service is connected to network gateway when status is active.
+	Rule 5: Smart device is connected to network gateway when status is active and IP is inside the farm. 
+	
+Policy 2: Access to a Smart devices
+	Rule 1: Users with role farmer and employment type permanent and employment status active can view and edit smart devices.
+	Rule 2: Users with role farmer and employment type contractor  and employment status active can view smart devices.
+	Rule 3: Users with role manager  and employment status active have access to view and edit smart devices.
+	Rule 4: Users with role admin  and employment status active have access to view, edit and configure smart devices.
+	Rule 5: Edge software is connected to smart devices.
+	
+Policy 3: Access to Edge processing
+	Rule 1: Users with role manager have access to edge processing with view and edit rights.
+	Rule 2: Users with role admin have access to edge processing with view, edit and configure rights.
+	
+Policy 4: Access to Cloud services
+	Rule 1: Users with role manager have access to cloud services with view and edit rights.
+	Rule 2: Users with role admin have access to cloud services with view, edit and configure rights.
